@@ -1,0 +1,17 @@
+python-dotenv
+openai==1.12.0
+anthropic>=0.19.1
+cohere==4.39
+groq==0.4.1
+google-cloud-aiplatform==1.38.1
+pandas
+numpy==1.26.3
+matplotlib
+seaborn
+pytest==7.4.4
+pydantic==2.5.3
+fastapi==0.109.0
+uvicorn==0.27.0
+python-multipart==0.0.6
+scikit-learn==1.4.0
+streamlit==1.31.0

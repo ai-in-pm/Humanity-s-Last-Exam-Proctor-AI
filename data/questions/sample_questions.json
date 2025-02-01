@@ -1,0 +1,50 @@
+[
+  {
+    "id": "math_001",
+    "type": "multiple_choice",
+    "subject_area": "mathematics",
+    "difficulty": 1.0,
+    "content": "What is the square root of 144?",
+    "correct_answer": "12",
+    "options": ["10", "11", "12", "13"],
+    "explanation": "The square root of 144 is 12 because 12 × 12 = 144"
+  },
+  {
+    "id": "cs_001",
+    "type": "short_answer",
+    "subject_area": "computer_science",
+    "difficulty": 2.0,
+    "content": "Explain the concept of recursion in programming.",
+    "correct_answer": "Recursion is a programming concept where a function calls itself to solve a problem by breaking it down into smaller subproblems.",
+    "explanation": "Recursion is fundamental to many algorithms and problem-solving approaches in computer science."
+  },
+  {
+    "id": "logic_001",
+    "type": "multiple_choice",
+    "subject_area": "logic",
+    "difficulty": 1.5,
+    "content": "If all A are B, and all B are C, what can we conclude?",
+    "correct_answer": "All A are C",
+    "options": ["All A are C", "All C are A", "No A are C", "Some A are not C"],
+    "explanation": "This is a classic example of syllogistic reasoning. If A is a subset of B, and B is a subset of C, then A must be a subset of C."
+  },
+  {
+    "id": "ethics_001",
+    "type": "short_answer",
+    "subject_area": "ethics",
+    "difficulty": 2.5,
+    "content": "Explain the trolley problem and discuss its ethical implications.",
+    "correct_answer": "The trolley problem involves a scenario where a runaway trolley is heading towards five people tied to the tracks. You can pull a lever to divert it to another track where it would kill one person instead. The ethical dilemma centers on whether it's morally right to actively cause one death to save five lives.",
+    "explanation": "This thought experiment highlights the tension between utilitarian and deontological ethical frameworks."
+  },
+  {
+    "id": "science_001",
+    "type": "multiple_choice",
+    "subject_area": "science",
+    "difficulty": 1.8,
+    "content": "What is the primary function of mitochondria in cells?",
+    "correct_answer": "Energy production",
+    "options": ["Energy production", "Protein synthesis", "Cell division", "Waste removal"],
+    "explanation": "Mitochondria are often called the powerhouse of the cell because they produce ATP through cellular respiration."
+  }
+]

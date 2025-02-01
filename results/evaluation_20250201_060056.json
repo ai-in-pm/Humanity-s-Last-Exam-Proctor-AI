@@ -1,0 +1,27 @@
+{
+  "session_id": "Claude_20250201_060042",
+  "llm_name": "Claude",
+  "total_questions": 2,
+  "metrics": {
+    "accuracy": 0.0,
+    "confidence_calibration_error": 0.25,
+    "average_confidence": 0.5,
+    "hallucination_rate": 0.0,
+    "subject_area_performance": {
+      "mathematics": 0.0
+    },
+    "difficulty_performance": {
+      "easy": 0.0
+    },
+    "question_type_performance": {
+      "multiple_choice": 0.0
+    }
+  },
+  "start_time": "2025-02-01 06:00:42.430656",
+  "end_time": "2025-02-01 06:00:56.560593",
+  "recommendations": [
+    "Consider reviewing fundamental concepts across subjects.",
+    "Work on improving confidence calibration.",
+    "Additional practice recommended in mathematics."
+  ]
+}

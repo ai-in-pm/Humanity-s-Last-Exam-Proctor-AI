@@ -1,0 +1,44 @@
+{
+    "questions": [
+        {
+            "id": "putnam_2024_A1",
+            "type": "short_answer",
+            "subject_area": "mathematics",
+            "difficulty": 3.0,
+            "topic": ["number theory", "diophantine equations"],
+            "content": "Determine all positive integers n for which there exist positive integers a, b, and c satisfying: 2a^n + 3b^n = 4c^n.",
+            "correct_answer": "1",
+            "explanation": "When n=1, (a,b,c) = (1,2,2) is a solution. For n ≥ 2, no solutions exist. This can be proven by considering cases:\n\nFor n = 2: Assuming gcd(a,b,c) = 1, we get a^2+c^2 ≡ 0 (mod 3), implying a,c are multiples of 3, which leads to b being a multiple of 3, contradicting gcd(a,b,c)=1.\n\nFor n ≥ 3: If gcd(a,b,c)=1, the equation implies b must be even, then a must be even, then c must be even, contradicting gcd(a,b,c)=1."
+        },
+        {
+            "id": "putnam_2024_A2",
+            "type": "short_answer",
+            "subject_area": "mathematics",
+            "difficulty": 3.0,
+            "topic": ["algebra", "polynomials", "functional equations"],
+            "content": "For which real polynomials p is there a real polynomial q such that p(p(x)) - x = (p(x) - x)^2 q(x) for all real x?",
+            "correct_answer": "p(x) = ±x + c for any real constant c",
+            "explanation": "The polynomials of the form p(x) = ±x + c are the only solutions. This can be proven by showing that if p(p(x)) - x is divisible by (p(x) - x)^2, then either p(x) = x or 1 + p'(x) is divisible by p(x) - x. The latter case leads to p(x) = -x + c."
+        },
+        {
+            "id": "putnam_2024_A5",
+            "type": "short_answer",
+            "subject_area": "mathematics",
+            "difficulty": 3.0,
+            "topic": ["geometry", "probability"],
+            "content": "Consider a circle Ω with radius 9 and center at the origin (0,0), and a disc Δ with radius 1 and center at (r,0), where 0 ≤ r ≤ 8. Two points P and Q are chosen independently and uniformly at random on Ω. Which value(s) of r minimize the probability that the chord PQ intersects Δ?",
+            "correct_answer": "0",
+            "explanation": "r = 0 (the center) minimizes the probability. This can be proven by geometric probability arguments considering the measure of favorable cases relative to the total measure of possible chords."
+        },
+        {
+            "id": "putnam_2024_B1",
+            "type": "short_answer",
+            "subject_area": "mathematics",
+            "difficulty": 3.0,
+            "topic": ["combinatorics", "grid patterns"],
+            "content": "Let n and k be positive integers. The square in the i-th row and j-th column of an n-by-n grid contains the number i+j-k. For which n and k is it possible to select n squares from the grid, no two in the same row or column, such that the numbers contained in the selected squares are exactly 1,2,...,n?",
+            "correct_answer": "When k = 1 or k = n",
+            "explanation": "The solution is k = 1 or k = n. This can be proven by analyzing the properties of permutations and considering the constraints on the sum of selected numbers."
+        }
+    ]
+}

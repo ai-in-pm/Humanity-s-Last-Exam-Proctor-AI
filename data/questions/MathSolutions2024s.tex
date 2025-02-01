@@ -1,0 +1,760 @@
+\documentclass[amssymb,twocolumn,pra,10pt,aps]{revtex4-1}
+\usepackage{mathptmx,amsmath,amsthm,hyperref}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{cor}[lemma]{Corollary}
+\newtheorem*{lemma*}{Lemma}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+\begin{document}
+
+\title{Solutions to the 85th William Lowell Putnam Mathematical Competition \\
+    Saturday, December 7, 2024}
+\author{Manjul Bhargava, Kiran Kedlaya, and Lenny Ng}
+\noaffiliation
+\maketitle
+
+\begin{itemize}
+\item[A1]
+The answer is $n=1$. When $n=1$, $(a,b,c) = (1,2,2)$ is a solution to the given equation. We claim that there are no solutions when $n \geq 2$.
+
+For $n = 2$, suppose that we have a solution to $2a^2+3b^2=4c^2$ with $a,b,c\in\mathbb{N}$. By dividing each of $a,b,c$ by $\gcd(a,b,c)$, we obtain another solution; thus we can assume that $\gcd(a,b,c) = 1$. Note that we have $a^2+c^2 \equiv 0 \pmod{3}$, and that only $0$ and $1$ are perfect squares mod $3$; thus we must have $a^2 \equiv c^2 \equiv 0 \pmod{3}$. But then $a,c$ are both multiples of $3$; it follows from $b^2 = 12(c/3)^2-6(a/3)^2$ that $b$ is a multiple of $3$ as well, contradicting our assumption that $\gcd(a,b,c)=1$.
+
+For $n \geq 3$, suppose that $2a^n+3b^n=4c^n$. As in the previous case, we can assume $\gcd(a,b,c)=1$. Since $3b^n=4c^n-2a^n$, $b$ must be even. 
+We can then write $a^n+2^{n-1}\cdot 3(b/2)^n = 2 c^n$, and so $a$ must be even. Then $2^{n-1}(a/2)^n+2^{n-2} \cdot 3(b/2)^n = c^n$, and $c$ must be even as well. This contradicts our assumption that $\gcd(a,b,c)=1$.
+
+\item[A2]
+The answer is $p(x) = \pm x+c$ for any $c \in \mathbb{R}$. Note that any such polynomial works: if $p(x)=x+c$ then $p(x)-x=c$, while if $p(x)=-x+c$ then $p(p(x))-x=0$.
+We will show that in fact these are the only polynomials $p(x)$ such that $p(p(x))-x$ is divisible by $r(x)^2$, where $r(x)=p(x)-x$. 
+
+\noindent
+\textbf{First solution.}
+Suppose that $p(p(x))-x$ is divisible by $r(x)^2$. Then
+\begin{align*}
+x &\equiv p(p(x)) \\
+&= p(x + r(x)) \\
+&\equiv p(x) + p'(x) r(x) \pmod{r(x)^2}.
+\end{align*}
+In other words, $r(x) (1 + p'(x))$ is divisible by $r(x)^2$.
+From this, it follows that either $r(x) = 0$ or $1+p'(x)$ is divisible by $r(x)$.
+In the first case, we have $p(x) = x$.
+In the second case, if $1 + p'(x) = 0$ then $p(x) = -x + c$ for some constant $c$;
+otherwise, we have
+\[
+\deg(p) - 1 = \deg(1 + p'(x)) \geq \deg(r)
+\]
+and this is only possible if $p(x) = x + c$ for some constant $c$.
+
+\noindent
+\textbf{Second solution.}
+Suppose that $p(p(x))-x$ is divisible by $r(x)^2$. Then
+\begin{align*}
+0 &\equiv \frac{d}{dx}(p(p(x)) - x) \\
+&= p'(x) p'(p(x)) - 1 \\
+&\equiv p'(x)^2 -1 \\
+&= (p'(x) + 1)(p'(x) - 1) \\
+&= r'(x) (r'(x) + 2) 
+\pmod{r(x)}.
+\end{align*}
+If $\alpha$ is a root of $r(x)$ of some multiplicity $m$, then the multiplicity of $\alpha$ as a root of $r'(x)$ is $m-1$. Consequently, every root of $r(x)$ must be a root of $r'(x)+ 2$;
+in particular such a root cannot also be a root of $r'(x)$, so every root of $r(x)$ is simple.
+Putting this together, we deduce that $r(x)$ divides $r'(x) + 2$. If $r(x)$ is constant,
+then $p(x) = x+c$ for some $c$. Otherwise, $\deg(r'(x) + 2) < \deg(r(x))$ and so $r'(x) + 2$ must be zero; then $r(x) = -2x + c$ for some $c$, whence $p(x) = -x + c$.
+
+\item[A3]
+Yes, such $a,b,c,d$ exist: we take
+\[
+(a,b) = (2,1), \qquad (c,d) = (1,2).
+\]
+We will represent $T$ as an $3 \times n$ array (3 rows, $n$ columns) of integers  in which each of $1,\dots,3n$ occurs exactly once and the rows and columns are strictly increasing; we will specialize to $n=2024$ at the end.
+
+We first note that $T(1,1) = 1$ and $2 \in \{T(1,2), T(2,1)\}$.
+From this, it follows that $T(2,1) < T(1,2)$ if and only if $T(2,1) = 2$.
+
+We next recall a restricted form of the \emph{hook length formula}
+(see the first remark for a short proof of this restricted version and the second remark for the statement of the general formula).
+Consider more generally an array consisting of (up to) three rows of lengths $n_1\geq n_2 \geq n_3 \geq 0$, aligned at the left.
+Let $f(n_1,n_2,n_3)$ be the number of ways to fill this array with a permutation of the numbers $1,\dots,n_1+n_2+n_3$ in such a way that each row increases from left to right and each column increases from top to bottom. The hook length formula then shows that $f(n_1,n_2,n_3)$ equals
+\[
+\frac{(n_1-n_2+1)(n_1-n_3+2)(n_2-n_3+1) (n_1+n_2+n_3)!}
+{(n_1+2)! (n_2+1)! n_3!}.
+\]
+
+We then note that if $T(2,1) = 2$, we obtain a array with row lengths $n, n-1, n-1$ by removing 1 and 2, relabeling each remaining $i$ as $3n+1-i$, and reflecting in both axes. The probability that $T(2,1) < T(1,2)$ is thus
+\begin{align*}
+\frac{f(n,n-1,n-1)}{f(n,n,n)}
+&= 
+\frac{(2)(3)(n+1)n}{(1)(2) (3n)(3n-1)} \\
+&= \frac{n+1}{3n-1} = \frac{1}{3} + \frac{4}{9n-3};
+\end{align*}
+this is always greater than $\frac{1}{3}$, and for $n =2024$ it is visibly less than $\frac{2}{3}$.
+
+\noindent
+\textbf{Remark.}
+We prove the claimed formula for $f(n_1,n_2,n_3)$ by induction on $n_1+n_2+n_3$.
+To begin with, if $n_2 = n_3 = 0$, then the desired count is indeed $f(n_1, 0, 0) = 1$.
+Next, suppose $n_2 > 0, n_3 = 0$.
+The entry $n_1 + n_2$ must go at the end of either the first or second row;
+counting ways to complete the diagram from these starting points yields
+\[
+f(n_1,n_2,0) = f(n_1-1,n_2,0) + f(n_1,n_2-1,0).
+\]
+(This works even if $n_1 = n_2$, in which case the first row is not an option but correspondingly $f(n_2-1,n_2,0) = 0$.)
+The induction step then follows from the identity
+\[
+\frac{(n_1-n_2)(n_1+1) + (n_1-n_2+2)n_2}{(n_1-n_2+1)(n_1+n_2)}  = 1.
+\]
+(As an aside, the case $n_1 = n_2, n_3 = 0$ recovers a standard interpretation of the Catalan numbers.)
+
+Finally, suppose $n_3 > 0$. We then have
+\begin{align*}
+&f(n_1,n_2,n_3) \\
+&= 
+f(n_1-1,n_2,n_3) + f(n_1,n_2-1,n_3) + f(n_1,n_2,n_3-1),
+\end{align*}
+and the induction step now reduces to the algebraic identity
+\begin{align*}
+&\frac{(n_1-n_2)(n_1-n_3+1)(n_1+2)}{(n_1-n_2+1)(n_1-n_3+2)(n_1+n_2+n_3)} \\
+&+ \frac{(n_1-n_2+2)(n_2-n_3)(n_2+1)}{(n_1-n_2+1)(n_2-n_3+1)(n_1+n_2+n_3)} \\
+&+ \frac{(n_1-n_3+3)(n_2-n_3+2)n_3}{(n_1-n_3+2)(n_2-n_3+1)(n_1+n_2+n_3)}
+= 1.
+\end{align*}
+
+\noindent
+\textbf{Remark.}
+We formulate the general hook length formula in standard terminology.
+Let $N$ be a positive integer, and consider a semi-infinite checkerboard with top and left edges. A \emph{Ferrers diagram} is a finite subset of the squares of the board which is closed under taking a unit step towards either edge. Given a Ferrers diagram with $N$ squares, a \emph{standard Young tableau} for this diagram is a bijection of the squares of the diagram with the integers $1,\dots,N$ such that the numbers always increase under taking a unit step away from either edge. 
+
+
+For each square $s = (i,j)$ in the diagram, the \emph{hook length} $h_s$ of $s$ is the number of squares $(i',j')$ in the diagram
+such that either $i=i', j\leq j'$ or $i\leq i',j=j'$ (including $s$ itself). Then the number of standard Young tableaux for this diagram equals
+\[
+\frac{N!}{\prod_s h_s}.
+\]
+For a proof along the lines of the argument given in the previous remark, see:
+Kenneth Glass and Chi-Keung Ng, A simple proof of the hook length formula,
+\textit{American Mathematical Monthly} \textbf{111} (2004), 700--704.
+
+\item[A4]
+The prime $p=7$ works: choose $a=5$ and $r=3$, and note that $1,a,a^2$ can be rearranged to form $b_0=5$, $b_1=1$, $b_2=25$ satisfying the stated property.
+
+We claim that no prime $p>7$ works. Suppose otherwise: there exist $p,a,r$ with $p>7$ and $r\nmid p$ such that $1,a,\ldots,a^{p-5}$ can be rearranged to form $b_0,\ldots,b_{p-5}$ with $b_n \equiv b_0+nr \pmod{p}$ for all $0\leq n\leq p-5$. Since $r\nmid p$, $\{b_0,b_0+r,\ldots,b_0+(p-5)r\}$ represents a collection of $p-4$ distinct elements of $\mathbb{Z}/p\mathbb{Z}$. It follows that all of $1,a,\ldots,a^{p-5}$ are distinct mod $p$. In particular, $p\nmid a$; also, since $p-5 \geq \frac{p-1}{2}$, we conclude that $a^k \not\equiv 1 \pmod{p}$ for any $1\leq k\leq \frac{p-1}{2}$. It follows that $a$ is a primitive root mod $p$.
+
+Since $a$ is a primitive root, $a^{-3},a^{-2},a^{-1},a^0,\ldots,a^{p-5}$ runs through all nonzero elements of $\mathbb{Z}/p$ exactly once. On the other hand, $b_0-4r,b_0-3r,b_0-2r,b_0-r,b_0,\ldots,b_0+(p-5)r$ runs through all elements of $\mathbb{Z}/p\mathbb{Z}$ exactly once. The given condition now implies that
+\[
+\{b_0-4r,b_0-3r,b_0-2r,b_0-r\} = \{0,c,c^2,c^3\}
+\]
+
+where $c = a^{-1}$; that is, $0,c,c^2,c^3$ can be rearranged to give an arithmetic sequence $x_1,x_2,x_3,x_4$ in $\mathbb{Z}/p\mathbb{Z}$.
+
+If $0, c, c^2, c^3$ can be arranged into a four-term arithmetic progression, then by dividing the progression by $c$,
+we see that $0,1,c,c^2$ can also be arranged into a four-term arithmetic progression. Now no two of $1,c,c^2$ can
+both be adjacent to 0 in this arithmetic progression, or otherwise they would be negative of each other; but this is
+impossible because the order of $c$ is greater than 4. We conclude that 0 must be either the first or the last term of the 
+progression, and by reversing the sequence if necessary, we can assume that 0 is the first term of the progression. 
+Now the last three terms of this progression cannot be $1,c,c^2$ or $c^2,c,1$ in that order, as $c-1\neq c^2-c$ because $c\neq 1$. 
+Thus the only possibilities for the arithmetic progression that remain are
+\begin{gather*}
+0,1,c^2,c; \qquad
+0,c^2,1,c; \\
+0,c,1,c^2; \qquad
+0,c,c^2,1.
+\end{gather*}
+As twice the second term must be the third term, and thrice the second term must be the fourth term, we immediately eliminate each of the above possibilities: the first sequence is not possible because we must have $c^2=2, c=3$, which is a valid solution only when $p=7$; for the second sequence, we must have $1=2c^2$ and $1=3c$, which is again a valid solution only when $p=7$; for the third sequence, we must have $1=2c$ and $c^2=3c$, implying $c=1/2=3$, which is possible only when $p=5$; and for the fourth sequence, we must have $c^2=2c$ and $1=3c$, implying $c=2=1/3$, which is again possible only when $p=5$.
+
+\item[A5]
+We will show that $r=0$ (and no other value of $r$) minimizes the stated probability.
+Note that $P$ and $Q$ coincide with probability $0$; thus we can assume that $P\neq Q$.
+
+\noindent
+\textbf{First solution.}
+First restrict $P,Q$ to points on $\Omega$ such that the segment $\overline{PQ}$ makes an angle of $\theta$ with the $y$ axis, where $\theta$ is a fixed number with $-\pi/2<\theta\leq\pi/2$. By rotating the diagram by $-\theta$ around the origin, we move $\overline{PQ}$ to be a vertical line and move $\Delta$ to be centered at $(r\cos\theta,-r\sin\theta)$. In this rotated picture, $P$ and $Q$ are at $(9\cos\phi,\pm 9\sin\phi)$ where $\phi$ is chosen uniformly at random in $(0,\pi)$. Now the vertical tangent lines to the boundary of $\Delta$, $x=r\cos\theta\pm 1$, intersect the $y>0$ semicircle of $\Omega$ at $(9\cos\phi,9\sin\phi)$ where $\phi = \cos^{-1}\left(\frac{r\cos\theta\pm 1}{9}\right)$. Thus the probability that $\overline{PQ}$ intersects $\Delta$ for a specific value of $\theta$ is
+$\frac{1}{\pi} f(r,\theta)$, where we define 
+\[
+f(r,\theta) = \cos^{-1} \left(\frac{r\cos\theta-1}{9}\right) - \cos^{-1}\left(\frac{r\cos\theta+1}{9}\right).
+\]
+
+If we now allow $\theta$ to vary (uniformly) in $(-\pi/2,\pi/2]$, we find that the overall probability that $\overline{PQ}$ intersects $\Delta$ is
+\[
+P(r) = \frac{1}{\pi^2} \int_{-\pi/2}^{\pi/2} f(r,\theta)\,d\theta.
+\]
+The function $P(r)$ is differentiable with 
+\[
+P'(r) = \frac{1}{\pi^2} \int_{-\pi/2}^{\pi/2} \frac{\partial f(r,\theta)}{\partial r}\,d\theta.
+\]
+Now
+\begin{align*}
+\frac{\partial f(r,\theta)}{\partial r} &= (\cos t)\left((80-2r\cos t-r^2\cos^2 t)^{-1/2} \right. \\
+&\qquad \left. -(80+2r\cos t-r^2\cos^2 t)^{-1/2}\right),
+\end{align*}
+which, for $t\in (-\pi/2,\pi/2)$, is zero for $r=0$ and strictly positive for $r>0$. It follows that $P'(0)=0$ and $P'(r)<0$ for $r\in (0,8]$, whence $P(r)$ is minimized when $r=0$.
+
+\noindent
+\textbf{Second solution.} (based on ideas from Elliott Liu, Bjorn Poonen, Linus Tang, and Allen Wang)
+We interpret the first paragraph of the first solution as reducing the original problem to the following assertion:
+given two parallel lines at distance 2, both of which intersect a circle of radius 9, 
+the length of either of the two congruent arcs of the circle lying between the two lines is minimized when the line halfway between the two parallel lines passes through the center of the circle.
+
+To see this, note that the length of a minor arc of a circle is a strictly increasing function of the length of the chord connecting the two endpoints of the arc. In this case, the chord connects points on the two given parallel lines, so the distance between these points is minimized by having them be the endpoints of a segment perpendicular to the two lines; this achieves the situation described above.
+
+\item[A6]
+The determinant equals $10^{n(n-1)/2}$.
+We compute the corresponding determinant for the coefficients of the generic power series
+\[
+f(x) := \sum_{n=1}^\infty c_n x^n, \qquad c_1 = 1,
+\]
+with associated continued fraction
+\[
+\frac{a_0}{x^{-1} + b_0 + \frac{a_1}{x^{-1} + b_1 + \cdots}}, \qquad a_0 = 1.
+\]
+If we truncate by replacing $a_{n+1} = 0$, we get a rational function which can be written as $\frac{A_n(x^{-1})}{B_n(x^{-1})}$ where $A_n(x), B_n(x)$ are polynomials determined by the initial conditions
+\[
+A_{-1}(x) =1, A_0(x) = 0, \quad B_{-1}(x) = 0, B_0(x) = 1
+\]
+and the recurrences
+\begin{align*}
+A_{n+1}(x) &= (x + b_{n})A_n(x) + a_{n} A_{n-1}(x) \qquad (n > 0) \\
+B_{n+1}(x) &= (x + b_{n})B_n(x) + a_{n} B_{n-1}(x) \qquad (n > 0).
+\end{align*}
+Since each additional truncation accounts for two more coefficients of the power series, we have
+\[
+\frac{A_n(x^{-1})}{B_n(x^{-1})} = f(x) + O(x^{2n+1}),
+\]
+or equivalently (since $B_n(x)$ is monic of degree $n$)
+\begin{equation} \label{eq:convergent}
+f(x) B_n(x^{-1}) - A_n(x^{-1}) = O(x^{n+1}).
+\end{equation}
+
+We now reinterpret in the language of \emph{orthogonal polynomials}.
+For a polynomial $P(x) = \sum_i P_i x^i$, define
+\[
+\int_\mu P(x) = \sum_i P_i c_{i+1};
+\]
+then the vanishing of the coefficient of $x^{i+1}$
+in \eqref{eq:convergent} (with $n := i$) implies that
+\[
+\int_\mu x^i B_j(x) = 0 \qquad (j < i).
+\]
+By expanding $0 = \int_\mu x^{i-1} B_{i+1}(x)$ using the recurrence, we deduce that $\int_\mu x^i B_i(x) + a_i \int_\mu x^{i-1} B_{i-1}(x) = 0$, and so
+\[
+\int_\mu x^i B_i(x) = (-1)^i a_1 \cdots a_i.
+\]
+We deduce that
+\begin{equation} \label{eq:orthogonality}
+\int_\mu B_i(x) B_j(x) = \begin{cases} 0 & i \neq j \\
+(-1)^i a_1 \cdots a_i & i = j.
+\end{cases}
+\end{equation}
+In other words, for $U$ the $n \times n$ matrix such that
+$U_{ij}$ is the coefficient of $x^j$ in $B_i(x)$,
+the matrix $UAU^t$ is a diagonal matrix $D$ with diagonal entries
+$D_{i,i} = (-1)^{i-1} a_1 \cdots a_{i-1}$ for $i=1,\dots,n$. 
+Since $U$ is a unipotent matrix, its determinant is 1; we conclude that
+\[
+\det(A) = \det(D) = (-1)^{n(n-1)/2} a_1^{n-1} \cdots a_{n-1}.
+\]
+
+We now return to the sequence $\{c_n\}$ given in the problem statement, for which
+\[
+f(x) = \frac{1 - 3x - \sqrt{1 - 14x +9x^{2}}}{4}.
+\]
+For 
+\[
+g(x) := \frac{1-7x-\sqrt{1-14x+9x^2}}{2x},
+\]
+we have
+\[
+f(x) = \frac{1}{x^{-1} - 5 - g(x)}, \quad
+g(x) = \frac{10}{x^{-1} - 7 - g(x)}.
+\]
+This means that the continued fraction is eventually periodic;
+in particular, $a_1 = a_2 = \cdots = -10$.
+Plugging into the general formula for $\det(A)$ yields the desired result.
+This yields the desired result.
+
+\noindent
+\textbf{Reinterpretation.} (suggested by Bjorn Poonen)
+Given a formal Laurent series $\alpha = \sum_i a_i x^i$, define the matrices
+$H_n(\alpha) = (a_{i+j-1})_{i,j=1}^n$ and the determinants $h_n(\alpha) = \det H_n(\alpha)$.
+One can then recover the evaluation of the determinants from the following lemma.
+
+\begin{lemma*}
+Suppose $\alpha = \sum_{i=1}^\infty a_i x^i$ is a formal power series with $a_i = 1$.
+Define the power series $\beta$ by $\alpha^{-1} = x^{-1} - \beta$. Then for all $n \geq 1$,
+$h_n(\alpha) = h_{n-1}(\beta)$.
+\end{lemma*}
+\begin{proof}
+For $m \geq 2$, by equating the coefficients of $x^m$ in the equality $x^{-1} \alpha = \alpha \beta + 1$, we obtain
+\[
+a_{m+1} = \sum_{r=1}^m a_r b_{m-r}.
+\]
+We now perform some row and column reduction on $H_n(\alpha)$ without changing its determinant.
+Starting with $H_n(\alpha)$,
+for $i = n,n-1,\dots,2$ in turn, for $k=1,\dots,i-1$ subtract $b_{i-1-k}$ times row $k$ from row $i$. In light of the recurrence relation, the resulting matrix $M = (m_{ij})$ has the property that for $i \geq 2$,
+\begin{align*}
+m_{ij} &= a_{i+j-1} - \sum_{k=1}^{i-1} a_{j+k-1} b_{i-1s-k} \\
+&= \sum_{r=1}^{j-1}  a_r b_{i+j-2-r}.
+\end{align*}
+In particular, $m_{i1} = 0$ for $i \geq 2$.
+Starting from $M$, for $j=2,\dots,n-1$ in turn, for $k=j+1,\dots,n$ subtract $a_{k-j+1}$ times column $j$ from column $i$. The resulting matrix has first column $(1, 0,\dots,0)$ and removing its first row and column leaves $H_{n-1}(\beta)$, yielding the claimed equality.
+\end{proof}
+
+\noindent
+\textbf{Remark.} A matrix $A$ whose $i,j$-entry depends only on $i+j$ is called a \emph{Hankel matrix}.
+The above computation of the determinant of a Hankel matrix in terms of continued fractions is adapted from
+H.S. Wall, \textit{Analytic Theory of Continued Fractions}, Theorems 50.1 and 51.1.
+
+The same analysis shows that if we define the sequence $\{c_n\}_{n=1}$ by
+$c_1 = 1$ and
+\[
+c_n = a c_{n-1} + b \sum_{i=1}^{n-1} c_i c_{n-i} \qquad (n > 1),
+\]
+then  $a_n = -ab-b^2$, $b_n = -a-2b$ for all $n>0$ and so
+\[
+\det(A) = (ab+b^2)^{n(n-1)/2};
+\]
+the problem statement is the case $a=3, b=2$.
+The case $a=0, b=1$ yields the sequence of Catalan numbers;
+the case $a=1, b=1$ yields the Schr\"oder numbers (OEIS sequence A006318).
+
+There are a number of additional cases of Hankel determinants of interest in combinatorics.
+For a survey, see: A. Junod, Hankel determinants and orthogonal polynomials,
+\textit{Expositiones Mathematicae} \textbf{21} (2003), 63--74.
+
+\item[B1]
+This is possible if and only if $n$ is odd and $k = (n+1)/2$.
+
+We first check that these conditions are necessary. If the pairs $(a_1,b_1),\dots,(a_n,b_n)$
+index squares of the grid with no two in the same row or column,
+then each of the two sequences $a_1,\dots,a_n$
+and $b_1,\dots,b_n$ is a permutation of $\{1,\dots,n\}$, and so in particular has sum $1 + \cdots +n = \frac{n(n+1)}{2}$. In particular, if the selected numbers are $1,2,\dots,n$ in some order, then
+\begin{align*}
+\frac{n(n+1)}{2} &= \sum_{i=1}^n (a_i+b_i-k) \\
+&= \sum_{i=1}^n a_i + \sum_{i=1}^n b_i - \sum_{i=1}^n k \\
+&= \frac{n(n+1)}{2} + \frac{n(n+1)}{2} - nk
+\end{align*}
+which simplifies to $k = (n+1)/2$.
+
+We next check that these conditions are sufficient. For this, it suffices to observe that
+the sequence
+\begin{gather*}
+\left(1, \frac{n+1}{2}\right), \left(2, \frac{n+3}{2}\right), \dots,
+\left(\frac{n+1}{2}, n\right), \\
+\left(\frac{n+3}{2}, 1\right), \dots, \left(n, \frac{n-1}{2}\right)
+\end{gather*}
+of grid entries equals
+\[
+1, 3, \dots, n, 2, \dots, n-1.
+\]
+We illustrate this for the case $n=5, k=3$ below; the selected entries are parenthesized.
+\[
+\begin{pmatrix}
+-1 & 0 & (1) & 2 & 3 \\
+0 & 1 & 2 & (3) & 4 \\
+1 & 2 & 3 & 4 & (5) \\
+(2) & 3 & 4 & 5 & 6 \\
+3 & (4) & 5 & 6 & 7
+\end{pmatrix}
+\]
+
+\item[B2]
+No, there is no such sequence. In other words, any sequence of convex quadrilaterals with the property that any two consecutive terms are partners must be finite.
+
+\noindent
+\textbf{First solution.}
+
+\begin{lemma*}
+Given five positive real numbers $a,b,c,d,K$, there are only finitely many convex quadrilaterals with side lengths $a,b,c,d$ in that order and area $K$. 
+\end{lemma*}
+\begin{proof}
+Let $PQRS$ be a convex quadrilateral with 
+\[
+\overline{PQ} = a, \overline{QR} = b, \overline{RS} = c, \overline{SP} = d.
+\]
+Then the congruence class of $PQRS$ is uniquely determined by the length of the diagonal $f := \overline{PR}$.
+Moreover, as $f$ increases, the angles $\angle RPQ$ and $\angle RPS$ are both strictly decreasing, so $\angle SPQ$ is decreasing; by the same logic, $\angle QRS$ is decreasing. 
+
+We next recall \emph{Bretschneider's formula}: for $s = (a+b+c+d)/2$,
+\[
+K^2 = (s-a)(s-b)(s-c)(s-d) - abcd \cos^2 \frac{\angle SPQ + \angle QRS}{2}.
+\]
+Consequently, fixing $K$ also fixes $\cos^2 \frac{\angle SPQ + \angle QRS}{2}$,
+and thus limits $\angle SPQ + \angle QRS$ to one of two values. By the previous paragraph, this leaves at most two possible congruence classes for the triangle.
+\end{proof}
+
+Returning to our original sequence, note that any two consecutive quadrilaterals in the sequence have the same area and the same unordered list of side lengths. The latter can occur as an ordered list in at most six different ways (up to cyclic shift); for each of these, we can have only finitely many distinct congruence classes of quadrilaterals in our sequence with that area and ordered list of side lengths. We deduce that our sequence must be finite.
+
+\noindent
+\textbf{Remark.}
+Various proofs of the lemma are possible; for example, here is one using Cartesian coordinates. We 
+first specify 
+\[
+P = (0,0), Q = (a, 0).
+\]
+For two additional points $R = (x,y),S = (z,w)$, the conditions $\overline{QR} = b$, $\overline{SP} = d$ restrict $R$ and $S$ to the circles
+\[
+(x-a)^2 + y^2 = b^2, \quad
+z^2+w^2 = d^2
+\]
+respectively. Since we want a convex quadrilateral, we may assume without loss of generality that $y,w > 0$.
+The area of the quadrilateral is $\frac{1}{2} a(y+w)$, which we also want to fix; we may thus regard $w$ as a function of $y$ (possibly restricting $y$ to a range for which $w>0$). After splitting the semicircles on which $R$ and $S$ lie into two arcs each, we may also regard $x$ and $w$ as functions of $y$. It now suffices to observe that $\overline{RS}^2 = (z-x)^2 + (w-y)^2$
+is a nonconstant algebraic function of $y$, so it takes any given value only finitely many times.
+
+\noindent
+\textbf{Second solution.}
+Let $ABCD$ be the first quadrilateral in the sequence.
+Since the quadrilateral is convex, the diagonals $\overline{AC}$ and $\overline{BD}$ intersect. In particular they are not parallel, so their perpendicular bisectors are not parallel either; let $O$ be the intersection
+of the bisectors.
+
+We claim that the point $O$ remains fixed throughout the sequence, as do the distances $OA, OB, OC, OD$. To see this, we check this for two partners as described in the problem statement: the diagonal $\overline{BD}$ gets reflected across the perpendicular bisector of $\overline{AC}$, so its perpendicular bisector also gets reflected; the point $O$ is the unique point on the perpendicular bisector of $\overline{BD}$ fixed by the reflection. In particular, the segments $\overline{OD}$ and $\overline{OE}$ are mirror images across the perpendicular bisector of $\overline{AC}$, so their lengths coincide.
+
+As noted in the first solution, the unordered list of side lengths of the quadrilateral also remains invariant throughout the sequence. Consequently, the unordered list of side lengths of each of the triangles $\triangle OAB, \triangle OBC, \triangle OCD, \triangle ODA$ is limited to a finite set;
+each such list uniquely determines the unoriented congruence class of the corresponding triangle,
+and limits the oriented congruence class to two possibilities. Given the oriented congruence classes of the four triangles we can reconstruct the quadrilateral $ABCD$ up to oriented congruence (even up to rotation around $O$); this proves that the sequence must be finite.
+
+\item[B3]
+\noindent
+\textbf{First solution.} (by Bjorn Poonen)
+Let $\tan^{-1} \colon \RR \to (-\frac{\pi}{2}, \frac{\pi}{2})$ be the principal branch of the arctangent function, and set $t(x) := x - \tan^{-1}(x)$. Then $t(0) = 0$ and
+\[
+\frac{dt}{dx} = 1 - \frac{1}{1+x^2} = \frac{x^2}{1+x^2} > 0 \qquad (x \neq 0),
+\]
+so $t(x)$ is strictly increasing.
+We have $\tan x = x$ if and only if $x = \tan^{-1} x + n\pi$ for some $n \in \mathbb{Z}$;
+from the previous analysis it follows that $r_n$ is the unique solution of $t(x) = n \pi$.
+
+Let $x(t)$ be the inverse function of $t(x)$, so that $r_n = x(n\pi)$. We compute that
+\begin{align*}
+\frac{dx}{dt} - 1 &= \frac{1}{dt/dx} - 1 = \frac{1}{x^2} \\
+\frac{dx}{dt} - 1 - \frac{1}{t^2} &= \frac{1}{x^2} - \frac{1}{t^2}.
+\end{align*}
+From this we deduce that $x(t) - t$ is strictly increasing for $t > 0$ (as then $x(t) > 0$)
+and $x(t) - t + \frac{1}{t}$ is strictly decreasing for $t > 0$ (as then $\tan^{-1}(x(t)) > 0$ and so $t < x(t)$).  Evaluating at $t = n\pi$ and $t = (n+1)\pi$, we obtain 
+\begin{align*}
+r_n - n\pi &< r_{n+1} - (n+1) \pi \\
+r_n - n\pi + \frac{1}{n\pi} &> r_{n+1} - (n+1)\pi + \frac{1}{(n+1)\pi},
+\end{align*}
+which are the desired inequalities.
+
+\noindent
+\textbf{Second solution.}
+Define the function 
+\[
+f(x) := \tan x - x.
+\]
+We then have $f'(x) = \tan^2 x$.
+By induction on $k$, $f^{(k)}(x)$ is a polynomial of degree $k+1$ in $\tan x$
+with leading coefficient $k!$ and all coefficients nonnegative. In particular, on each of the intervals
+\[
+I_n := \left(n \pi, n \pi + \frac{\pi}{2} \right)  \qquad (n=0,1,\dots),
+\]
+$\tan x$ is positive
+and so $f^{(k)}(x)$ is positive for each $k \geq 1$; replacing $k$ with $k+1$, we deduce that each $f^{(k)}(x)$ is strictly increasing on $I_n$ for $k \geq 0$.
+
+We now analyze $f$ more closely on $I_n$.
+As $x \to n\pi^+$ for $n>0$, $f(x)$ tends to $f(n\pi) = -n\pi < 0$;
+by contrast, as $x \to 0^+$, $f(x)$ tends to 0 via positive values.
+In either case, as $x \to (n \pi + \frac{\pi}{2})^-$, $f(x) \to \infty$.
+Since $f(x)$ is strictly increasing on $I_n$, we deduce using the intermediate value theorem that:
+\begin{itemize}
+\item
+$f(x)$ has no zero in $I_0$;
+\item
+for $n > 0$, $f(x)$ has a unique zero in $I_n$.
+\end{itemize}
+Since $f(x)$ also has no zero between $I_n$ and $I_{n+1}$ (as it takes exclusively negative values there), we deduce that
+\[
+n\pi < r_n < n \pi + \frac{\pi}{2}.
+\]
+This already suffices to prove the claimed lower bound: since
+$f(r_n+\pi) = - \pi < 0$ and $f$ is strictly increasing on $I_{n+1}$, 
+the quantity $\delta := r_{n+1} - (r_n + \pi)$ is positive.
+
+To prove the upper bound, note that for $k \geq 1$,
+for $0 < x < n\pi + \frac{\pi}{2}-r_n$, we have
+\begin{align*}
+f^{(k)}(x) & \geq f^{(k)}(r_n + \pi) = f^{(k)}(r_n) \\
+&\geq k! r_n^{k+1} > k! n^{k+1} \pi^{k+1}.
+\end{align*}
+For each $k \geq 2$, we may apply the mean value theorem with remainder to deduce that for $x$ in the same range,
+\[
+f(r_n+\pi+x)\geq f(r_n+\pi) + \sum_{i=1}^k f^{(i)}(r_n+\pi) \frac{x^i}{i!}.
+\]
+Taking the limit as $k \to \infty$ yields
+\begin{align*}
+f(r_n + \pi + x) &\geq f(r_n+\pi) + \sum_{i=1}^\infty f^{(i)}(r_n+\pi) \frac{x^i}{i!} \\
+& > -\pi + \sum_{i=1}^k n^{i+1} \pi^{i+1} x^i \\
+&> - \pi + \frac{n^2\pi^2 x}{1-n \pi x};
+\end{align*}
+taking $x = \delta$ yields
+\[
+0 > -\pi + n \pi \left(\frac{1}{1-n \pi \delta} - 1\right)
+\]
+and so $\delta < \frac{1}{n(n+1)\pi}$ as desired.
+
+\noindent
+\textbf{Remark.}
+There is a mild subtlety hidden in the proof:
+if one first bounds the finite sum as
+\[
+f(r_n+\pi+x) > -\pi+ \sum_{i=1}^k n^{i+1} \pi^{i+1} x^i
+\]
+and then takes the limit as $k \to \infty$, the strict inequality is not preserved. One way around this is to write $f''(r_n) = 2r_n + 2 r_n^3$,
+retain the extra term $r_n x^2$ in the lower bound, take the limit as $k \to \infty$, and then discard the extra term to get back to a strict inequality. 
+
+\noindent
+\textbf{Remark.}
+The slightly weaker inequality $\delta < \frac{1}{n^2 \pi}$
+follows at once from the inequality
+\[
+f'(r_n + \pi) = f'(r_n) = \tan^2 r_n = r_n^2 > n^2 \pi^2
+\]
+plus the mean value theorem.
+
+\noindent
+\textbf{Remark.}
+One can also reach the desired upper bound by comparing $r_{n+1}$ to $r_n + \pi$ using the addition formula for tangents:
+\[
+\tan(x+y) = \frac{\tan x - \tan y}{1 + \tan x \tan y}.
+\]
+Namely, one then gets
+\begin{align*}
+\delta &< \tan \delta = \frac{\tan r_{n+1}  - \tan (r_n+\pi)}{1 + \tan r_{n+1} \tan (r_n+\pi)} \\
+&= \frac{r_{n+1}-r_n}{1 + r_n r_{n+1}} = \frac{\pi + \delta}{1 + r_n r_{n+1}}
+\end{align*}
+and hence
+\[
+\delta < \frac{\pi}{r_n r_{n+1}} < \frac{\pi}{(n\pi)((n+1)\pi)} = \frac{1}{(n^2+n)\pi}.
+\]
+
+
+\item[B4]
+The limit equals $\frac{1-e^{-2}}{2}$.
+
+\noindent
+\textbf{First solution.}
+We first reformulate the problem as a Markov chain.
+Let $v_k$ be the column vector of length $n$ whose $i$-th entry is the probability that $a_{n,k} = i$, so that $v_0$ is the vector $(1,0,\dots,0)$.
+Then for all $k \geq 0$, $v_{k+1} = A v_k$ where $A$ is the $n \times n$
+matrix defined by
+\[
+A_{ij} = \begin{cases}
+\frac{1}{n} & \mbox{if $i = j$} \\
+\frac{j-1}{n} & \mbox{if $i = j-1$} \\
+\frac{n-j}{n} & \mbox{if $i = j+1$} \\
+0 & \mbox{otherwise.}
+\end{cases}
+\]
+Let $w$ be the row vector $(1, \dots, n)$; then the expected value of $a_{n,k}$ is the sole entry of the $1 \times 1$ matrix $w v_k = w A^k v_0$. In particular, $E(n) = w A^n v_0$.
+
+We compute some left eigenvectors of $A$. First,
+\[
+w_0 := (1,\dots,1)
+\]
+satisfies $Aw_0 = w_0$. Second,
+\begin{align*}
+w_1 &:= (n-1, n-3, \dots, 3-n, 1-n) \\
+&= (n-2j+1\colon j=1,\dots,n)
+\end{align*}
+satisfies $Aw_1 = \frac{n-2}{n} w_1$: the $j$-th entry of $Aw_i$ equals
+\begin{align*}
+&\frac{j-1}{n} (n+3-2j) + \frac{1}{n} (n+1-2j) + \frac{n-j}{n} (n-1-2j) \\
+&\quad= \frac{n-2}{n} (n-2j+1).
+\end{align*}
+By the same token, we obtain
+\[
+w = \frac{n+1}{2} w_0 - \frac{1}{2} w_1;
+\]
+we then have
+\begin{align*}
+\frac{E(n)}{n} &= \frac{n+1}{2n} w_0A^n v_0 - \frac{1}{2n} w_1A^n v_0 \\
+&= \frac{n+1}{2n} w_0 v_0 - \frac{1}{2n} \left( 1 - \frac{2}{n} \right)^n w_1 v_0  \\
+&= \frac{n+1}{2n} - \frac{n-1}{2n} \left( 1 - \frac{2}{n} \right)^n.
+\end{align*}
+In the limit, we obtain
+\begin{align*}
+\lim_{n \to \infty} \frac{E(n)}{n} &= \frac{1}{2} - \frac{1}{2} \lim_{n \to \infty} \left( 1 - \frac{2}{n} \right)^n \\
+&= \frac{1}{2} - \frac{1}{2} e^{-2}.
+\end{align*}
+
+\noindent
+\textbf{Remark.}
+With a bit more work, one can show that $A$ has eigenvalues
+$\frac{n-2j}{n}$ for $j=0,\dots,n-1$, and find the corresponding left and right eigenvectors.
+In particular, it is also possible (but much more complicated) to express $v_0$ as a linear combination of right eigenvectors and use this to calculate $A^n v_0$.
+
+\noindent
+\textbf{Second solution.} 
+We reinterpret the Markov chain in combinatorial terms.
+Consider an apparatus consisting of one red light bulb, which is initially lit,
+plus $n-1$ white light bulbs, which are initially unlit. 
+We then repeatedly perform the following operation. 
+Pick one light bulb uniformly at random. If it is the red bulb, do nothing;
+otherwise, switch the bulb from lit to unlit or vice versa.
+After $k$ operations of this form, the random variable $a_{n,k}$ is equal to the number of lit bulbs (including the red bulb).
+
+We may then compute the expected value of $a_{n,n}$ by summing over bulbs.
+The red bulb contributes 1 no matter what. Each other bulb contributes $1$ if it is switched an odd number of times and 0 if it is switched an even number of times,
+or equivalently $\frac{1}{2}(1-(-1)^j)$ where $j$ is the number of times this bulb is switched.
+Hence each bulb other than the red bulb contributes
+\begin{align*} 
+&n^{-n} \sum_{i=0}^n \frac{1}{2}(1-(-1)^i) \binom{n}{i} (n-1)^{n-i} \\
+&= \frac{n^{-n}}{2} \left( \sum_{i=0}^n \binom{n}{i} (n-1)^{n-i} 
+- \sum_{i=0}^n (-1)^i \binom{n}{i} (n-1)^{n-i} \right) \\
+&= \frac{n^{-n}}{2} \left( (1+(n-1))^n - (-1+(n-1))^n \right) \\
+&= \frac{n^{-n}}{2} (n^2 - (n-2)^n) \\
+&= \frac{1}{2} - \frac{1}{2} \left( 1 - \frac{2}{n} \right)^n.
+\end{align*}
+This tends to $\frac{1 - e^{-2}}{2}$ as $n \to \infty$. Since $E(n)$ equals $n-1$ times this contribution plus 1, $\frac{E(n)}{n}$ tends to the same limit.
+
+\noindent
+\textbf{Third solution.}
+We compare the effect of taking 
+$a_{n,0} = j$ versus $a_{n,0} = j+1$ for some $j \in \{1,\dots,n-1\}$.
+If $m_{n,0} \in \{j,j+1\}$ then the values of $a_{n,1}$ coincide, as then do the subsequent values
+of $a_{n,k}$; this occurs with probability $\frac{2}{n}$. Otherwise, the values of $a_{n,1}$ differ by 1 and the situation repeats.
+
+Iterating, we see that the two sequences remain 1 apart (in the same direction) with probability $\left( \frac{n-2}{n} \right)^n$ and converge otherwise. Consequently, changing the start value from $j$ to $j+1$ increases the expected value of $a_{n,n}$ by $\left( \frac{n-2}{n} \right)^n$. 
+
+Now let $c$ be the expected value of $a_{n,n}$ in the original setting where $a_{n,0} = 1$.
+By symmetry, if we started with $a_{n,0} = n$ the expected value would change from $c$ to $n+1-c$;
+on the other hand, by the previous paragraph it would increase by 
+$(n-1)\left( \frac{n-2}{n} \right)^n$. We deduce that
+\[
+c = \frac{1}{2} \left( n+1 - (n-1) \left( \frac{n-2}{n} \right)^n \right)
+\]
+and as above this yields the claimed limit.
+
+\item[B5]
+For convenience, we extend the problem to allow nonnegative values for $k$ and $m$.
+
+\noindent
+\textbf{First solution.}
+Let $R(n,k)$ denote the number of subsets of $\{1,...,n\}$ of size $k$ where repetitions are allowed. 
+The ``sticks and stones'' argument shows that 
+\[
+R(n,k)=\binom{n+k-1}{k}:
+\]
+there is a bijection of these subsets with linear arrangements of $k$ (unlabeled) sticks and $z-1$ (unlabeled) stones,
+where we recover the subset by counting the number of stones to the left of each stick.
+
+Let $f_{k,m}(n) := \sum_{z=1}^n R(z,k)R(z,m)$. 
+It is known that for any positive integer $k$, the sum of the $k$-th powers of all positive integers less than or equal to $n$ is a polynomial in $n$ (given explicitly in terms of Bernoulli numbers via Faulhaber's formula); hence $f_{k,m}(n)$ is a polynomial in $n$. 
+We wish to show that this polynomial has nonnegative coefficients.
+
+Using the recursion for binomial coefficients, we obtain
+\begin{align*}
+R(n,k)R(n,m) &= f_{k,m}(n)-f_{k,m}(n-1) \\
+&= \sum_{z=1}^n \left( R(z,k)R(z,m)-R(z-1,k)R(z-1,m)\right)\\
+&= \sum_{z=1}^n \left( R(z,k)R(z,m)-R(z-1,k)R(z,m) \right.\\
+&\quad \left. +R(z-1,k)R(z,m)-R(z-1,k)R(z-1,m) \right) \\
+&= \sum_{z=1}^n \left( R(z,k-1)R(z,m)+R(z-1,k)R(z,m-1) \right) \\
+&= \sum_{z=1}^n \left( R(z,k-1)R(z,m) \right. \\
+&\quad \left. +(R(z,k)-R(z,k-1))R(z,m-1) \right)\\
+&= f_{k-1,m}(n)+f_{k,m-1}(n)-f_{k-1,m-1}(n).
+\end{align*}
+It follows from the latter equation (replacing the index $m$ by $m+1$) that
+\begin{equation} \label{eq:summation recurrence}
+f_{k,m}(n) = R(n,k)R(n,m+1) + f_{k-1,m}(n) - f_{k-1,m+1}(n);
+\end{equation}
+this can also be recovered by applying Abel summation (summation by parts) to
+$\sum_{z=1}^n R(z,k) R(z,m)$.
+
+Using \eqref{eq:summation recurrence}, we can evaluate $f_{k,m}$ by induction on $k$: for the first few values we obtain
+\begin{align*}
+f_{0,m}(n) &= R(n,m+1) \\
+f_{1,m}(n) &= R(n,1)R(n,m+1) + R(n,m+1) - R(n,m+2) \\
+           & = R(n,m+1)((m+1)n+1)/(m+2) \\
+           & = R(n,m+1) \frac{R(m+1,1)R(n,1)+1}{m+2}
+\end{align*}
+and similarly
+\begin{align*}
+f_{2,m}(n) &= R(n,m+1) (R(m+1,2)R(n,2) + R(m+1,1)R(n,1) \\
+&\quad +R(m+1,0)R(n,0))/R(m+2,2).
+\end{align*}
+This leads us to conjecture that
+\begin{equation} \label{eq:summation formula}
+f_{k,m}(n) = \frac{R(n,m+1)}{R(m+2,k)} \sum_{i=0}^k R(m+1,i)R(n,i),
+\end{equation}
+which we prove by induction on $k$.
+The base case $k=0$ is evident;
+given \eqref{eq:summation formula} with $k$ replaced by $k-1$,
+we apply \eqref{eq:summation recurrence} to obtain
+\begin{align*}
+&f_{k,m}(n) \\
+&= R(n,k) R(n,m+1) + \frac{R(n,m+1)}{R(m+2,k-1)} \sum_{i=0}^{k-1} R(m+1,i)R(n,i)\\
+&\quad - \frac{R(n,m+2)}{R(m+3,k-1)} \sum_{i=0}^{k-1} R(m+2,i)R(n,i) \\
+&= \frac{R(n,m+1)}{R(m+2,k)} \sum_{i=0}^k R(m+1,i)R(n,i)
+\end{align*}
+yielding \eqref{eq:summation formula} as written.
+
+Since $R(n,i) = n(n+1)(n+2)\cdots (n+i-1)/i!$ clearly has positive coefficients for all $i$, the explicit formula \eqref{eq:summation formula} implies that $f_{k,m}(n)$ also has positive coefficients for all $k$ and $m$.
+
+\noindent
+\textbf{Second solution.} 
+(by an anonymous Putnam participant)
+As in the first solution, we deduce that $f_{k,m}(n)$ is a polynomial in $n$ of degree $k+m+1$
+satisfying $f_{k,m}(0) = 0$ and $f_{k,m}(n) - f_{k,m}(n-1) = R(n,k)R(n,m)$.
+Since $f_{k,m}(n) > 0$ for $n \gg 0$, this polynomial has positive leading coefficient.
+To prove that it has nonnegative coefficients, it will suffice to prove the stronger assertion that the roots of $f_{k,m}(x)$ are all real and nonpositive, as then this will imply that $f_{k,m}(x) = c \prod_{j=0}^{k+m} (x + r_j)$ for some $r_j \geq 0$.
+
+Since $R(n,m) = 0$ for $m=0,-1,\dots,-m+1$, we deduce that $f_{k,m}(n) = 0$ for 
+$n=0,-1,\dots,-m$. Consequently, $f_{k,m}(x)$ can be written as $x(x+1)\cdots(x+m) Q(x)$ for some polynomial $Q(x)$ of degree $k$, and it will suffice to check that $Q(x)$ has $k$ distinct negative real roots.
+
+From the equality $f_{k,m}(n) - f_{k,m}(n-1) = R(n,k)R(n,m)$, if we substitute in for $Q(x)$
+and divide out common factors, we obtain
+\[
+(x+m) Q(x) - (x-1) Q(x-1) = \frac{1}{m!} R(x,k).
+\]
+Substituting $x=0,-1,\dots,-k+1$ in turn, we obtain
+\[
+Q(-j) = - \frac{j+1}{m-j} Q(-j-1) \quad (j=0, \dots, k-1).
+\]
+In particular, if any of $Q(0),\dots,Q(-k)$ were zero, then all of them would be zero and 
+$Q$ would have too many roots for its degree. Consequently, $Q(0),\dots,Q(-k)$ are all nonzero
+and alternating in sign. By the intermediate value theorem, $Q$ has a root $r_j$ in the interval $(-j-1,-j)$ for $j=0,\dots,k-1$; this completes the proof.
+
+\item[B6]
+The claim holds with $c=-\frac{1}{2}$.
+Set $t := 1/(1-x)$, so that $x = 1 - 1/t$
+and
+\[
+- \frac{1}{t} - \frac{1}{t^2} \leq \log x \leq - \frac{1}{t}.
+\]
+Set also $m := \lfloor t \rfloor$.
+In the following arguments, we use $c$ to refer to some positive constant independent of $n$ and $t$,
+but a different such constant at each appearance.
+
+Suppose first that $a > -\frac{1}{2}$. Then
+\begin{align*}
+F_a(x)e^{-t} &= \sum_{n=1}^\infty n^a e^{2n-t} x^{n^2}  \\
+&\geq \sum_{n=1}^\infty n^a e^{2n-t-n^2/t-n^2/t^2}  \\
+&= \sum_{n=1}^\infty n^a e^{-n^2/t^2} e^{-t(1-n/t)^2}.
+\end{align*}
+If we restrict the sum to the range $t < n < t + \sqrt{t}$, we may bound the summand from below by
+$c t^a$; we then have
+$F_a(x) e^{-t} > ct^{a+1/2}$ and this tends to $\infty$ as $t \to \infty$.
+
+Suppose next that $a < -\frac{1}{2}$. Then
+\begin{align*}
+F_a(x)e^{-t} &= \sum_{n=1}^\infty n^a e^{2n-t} x^{n^2} \\
+&\leq \sum_{n=1}^\infty n^a e^{-t(1-n/t)^2}.
+\end{align*}
+Fix $\epsilon>0$ such that $a+\epsilon < -\frac{1}{2}$.
+For the summands with $t - t^{1/2+\epsilon} < n < t + t^{1/2+\epsilon}$, we may bound the summand from above by $ct^a$; this range of the sum is then dominated by
+$ct^{a+1/2+\epsilon}$. 
+For the summands with $n < t - t^{1/2+\epsilon}$, we may bound the summand by
+$n^a e^{-t^{2\epsilon}}$; this range of the sum is then dominated by $t e^{-t^{2\epsilon}}$.
+For the summands with $n > t - t^{1/2+\epsilon}$, we may again bound the summand by
+$n^a e^{-t^{2\epsilon}}$; this range of the sum is then dominated by $c t^{a+1} e^{-t^{2\epsilon}}$.
+Since all three bounds tends to 0 as $t \to \infty$, so then does $F_a(x) e^{-t}$.
+
+\end{itemize}
+\end{document}
+
+
+
